@@ -11,7 +11,7 @@ var cors = require('cors');
 
 var app = express();
 
-// Basic Configuration 
+// Basic Configuration
 var port = process.env.PORT || 3000;
 
 /** this project needs a db !! **/
@@ -77,8 +77,8 @@ app.get('/', function(req, res){
   res.sendFile(process.cwd() + '/views/index.html');
 });
 
-  
-// your first API endpoint... 
+
+// your first API endpoint...
 app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
