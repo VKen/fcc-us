@@ -23,8 +23,16 @@ const CounterSchema = new mongoose.Schema({
     _id: String,
     seq: Number,
 })
+
+const UrlSchema = new mongoose.Schema({
+    _id: String,  // URL
+    short_url: Number,
+})
+
 // models
 const Counter = mongoose.model('Counter', CounterSchema);
+const Url = mongoose.model('Url', UrlSchema);
+
 var db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
