@@ -5,6 +5,8 @@ var mongo = require('mongodb');
 var mongoose = require('mongoose');
 const bodyParser = require('body-parser')
 
+const dns = require('dns').promises;
+var URL = require('url');
 var cors = require('cors');
 
 var app = express();
