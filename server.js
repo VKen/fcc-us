@@ -118,6 +118,16 @@ app.post("/api/shorturl/new", async function (req, res) {
     });
 });
 
+
+app.get("/api/shorturl/:short_url", async function (req, res) {
+    const code = req.params.short_url;
+    const url = await Url.findOne({short_url: code});
+    // if invalid or no such short code exists, return error
+    if (!url) {
+        return res.json({"error":"No short url found for given input"});
+    }
+    // example application returns {"error":"No short url found for given input"}
+    res.redirect(url._id);
 });
 
 async function getNextSequence(name) {
