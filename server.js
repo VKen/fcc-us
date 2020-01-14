@@ -85,7 +85,39 @@ app.get("/api/hello", function (req, res) {
 
 // create new shorted url
 app.post("/api/shorturl/new", async function (req, res) {
+    let short_url, parsed_url;
     const target_url = req.body.url;
+    const url = await Url.findById(target_url);
+
+    if (url && url.short_url) {
+        short_url = url.short_url;
+    } else {
+        // if no existing shortned url, do new shortening and get new short_url id-code
+        try {
+            parsed_url = new URL.URL(target_url);
+        } catch (e) {
+            return res.json({error:"invalid URL"});
+        }
+        // check for valid host name first
+        try {
+            const dns_check = await dns.lookup(parsed_url.hostname);
+
+        } catch (e) {
+            return res.json({error:"invalid Hostname"});
+        }
+        short_url = await getNextSequence(SEQUENCE_NAME);
+        const new_url = new Url({
+            _id: target_url,
+            short_url: short_url,
+        });
+        await new_url.save();
+    }
+    res.json({
+        original_url: target_url,
+        short_url: short_url,
+    });
+});
+
 });
 
 async function getNextSequence(name) {
